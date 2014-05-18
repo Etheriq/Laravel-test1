@@ -21,6 +21,16 @@ class CreatingArticles extends Seeder {
         $article->user()->associate($author);
         $article->save();
 
+        $author = Sentry::findUserByLogin('user1@loc.com');
+
+        $article = new Article;
+        $article->title = 'article # 2';
+        $article->description = 'description for article # 2';
+
+        $article->user()->associate($author);
+        $article->save();
+
+        
 
     }
 }
