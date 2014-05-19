@@ -30,7 +30,7 @@ class CreatingArticles extends Seeder {
         $article->user()->associate($author);
         $article->save();
 
-        
+
 
     }
 }

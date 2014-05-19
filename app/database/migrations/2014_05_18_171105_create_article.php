@@ -12,12 +12,15 @@ class CreateArticle extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('articles', function ($table) {
+        Schema::create('articles', function(Blueprint $table)
+        {
             $table->increments('id');
             $table->string('title', 150);
             $table->text('description');
-            $table->integer('user_id')->unsigned();
-
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
+            $table->softDeletes();
         });
 	}
 
