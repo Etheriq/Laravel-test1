@@ -10,7 +10,7 @@ class CreatingArticles extends Seeder {
 
     public function run()
     {
-        DB::table('articles')->truncate();
+        DB::table('articles')->delete();
 
         $author = Sentry::findUserByLogin('user2@loc.com');
 

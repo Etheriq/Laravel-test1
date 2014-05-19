@@ -23,7 +23,7 @@ class CreatingAdminUser extends Seeder {
 
     public function run()
     {
-        DB::table('users')->truncate();
+        DB::table('users')->delete();
 
         try
         {
@@ -133,7 +133,7 @@ class CreatingAdminGroup extends Seeder {
 
     public function run()
     {
-        DB::table('groups')->truncate();
+        DB::table('groups')->delete();
 
         try
         {
