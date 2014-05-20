@@ -4,12 +4,6 @@
 Login form
 @endsection
 
-@section('menu-login')
-    @unless (Auth::check())
-        You are not signed in.
-    @endunless
-@endsection
-
 @section('content')
 
     {{ Form::open(array('action' => 'proj1\Controllers\UserController@login')) }}
@@ -17,9 +11,7 @@ Login form
         {{ Form::text('username') }} <br/>
         {{ Form::label('password', 'Password') }}
         {{ Form::password('password') }}
-
         {{ Form::submit('enter') }}
-
     {{ Form::close() }}
 
 @endsection

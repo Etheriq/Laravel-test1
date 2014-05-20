@@ -42,14 +42,23 @@ Route::post('login', array(
 
 
 Route::group(array('before' => 'auth'), function () {
+    Route::get('user/profile', array(
+        'as' => 'profile',
+        function () {
+            return View::make('user.profile');
+        }
+    ));
 
+    Route::get('logout', array(
+        'as' => 'logout',
+        function()
+        {
+            Sentry::logout();
+            return Redirect::route('homepage');
+        }
+    ));
 
-//
-//    Route::get('/', function () {
-//        // К этому маршруту привязан фильтр auth.
-//    });
-//
 //    Route::get('user/profile', function () {
-//        // К этому маршруту также привязан фильтр auth.
+////         К этому маршруту также привязан фильтр auth.
 //    });
 });
