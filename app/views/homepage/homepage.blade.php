@@ -6,7 +6,7 @@
 
 @section('content')
 
-    ffs
+    <h3>Home page</h3>
 
 @endsection
 

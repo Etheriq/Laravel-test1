@@ -11,10 +11,45 @@
 |
 */
 
-Route::get('/', function()
-{
-    $users = User::all();
-    $articles = Article::all();
+Route::get('/', array(
+        'as' => 'homepage',
+        function()
+        {
+            return View::make('homepage.homepage');
+        }
+    ));
+Route::get('articles', array(
+    'as' => 'articles',
+    function()
+    {
+        $articles = Article::all();
+        return View::make('article.articles', array(
+            'articles' => $articles,
+        ));
+    }
+));
 
-	return View::make('homepage.homepage');
+Route::get('login', array(
+    'as' => 'login',
+    'uses' => 'UserController@login',
+));
+Route::post('login', array(
+    'as' => 'login',
+    'uses' => 'UserController@login',
+));
+
+
+
+
+Route::group(array('before' => 'auth'), function () {
+
+
+//
+//    Route::get('/', function () {
+//        // К этому маршруту привязан фильтр auth.
+//    });
+//
+//    Route::get('user/profile', function () {
+//        // К этому маршруту также привязан фильтр auth.
+//    });
 });

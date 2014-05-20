@@ -11,12 +11,14 @@
 	"autoload": {
 		"classmap": [
 			"app/commands",
-			"app/controllers",
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"
-		]
+		],
+        "psr-4": {
+            "proj1\\Controllers\\": "app/controllers"
+        }
 	},
 	"scripts": {
 		"post-install-cmd": [
