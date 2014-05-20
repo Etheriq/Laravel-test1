@@ -26,11 +26,7 @@ return array(
 	|
 	*/
 
-<<<<<<< HEAD
 	'default' => 'pgsql',
-=======
-	'default' => 'mysql',
->>>>>>> bc6b952471abf6d956c5465f254446f4d2e438dd
 
 	/*
 	|--------------------------------------------------------------------------
@@ -70,8 +66,8 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'test_db1',
-			'username' => 'dbuser1',
+			'database' => 'lar1',
+			'username' => 'pgadmin',
 			'password' => '2500',
 			'charset'  => 'utf8',
 			'prefix'   => '',
