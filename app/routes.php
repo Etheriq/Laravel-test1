@@ -13,5 +13,8 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+    $users = User::all();
+    $articles = Article::all();
+
+	return View::make('homepage.homepage');
 });

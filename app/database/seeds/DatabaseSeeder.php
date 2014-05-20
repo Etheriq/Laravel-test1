@@ -182,4 +182,3 @@ class CreatingAdminGroup extends Seeder {
     }
 
 }
->>>>>>> bc6b952471abf6d956c5465f254446f4d2e438dd
