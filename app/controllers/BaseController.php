@@ -1,5 +1,5 @@
 <?php
-namespace proj1\Controllers\Base;
+namespace proj1\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

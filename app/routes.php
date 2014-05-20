@@ -31,11 +31,11 @@ Route::get('articles', array(
 
 Route::get('login', array(
     'as' => 'login',
-    'uses' => 'UserController@login',
+    'uses' => 'proj1\Controllers\UserController@login',
 ));
 Route::post('login', array(
     'as' => 'login',
-    'uses' => 'UserController@login',
+    'uses' => 'proj1\Controllers\UserController@login',
 ));
 
 

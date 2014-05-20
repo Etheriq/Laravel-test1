@@ -12,7 +12,7 @@ Login form
 
 @section('content')
 
-    {{ Form::open(array('action' => 'UserController@login')) }}
+    {{ Form::open(array('action' => 'proj1\Controllers\UserController@login')) }}
         {{ Form::label('username', 'Login') }}
         {{ Form::text('username') }} <br/>
         {{ Form::label('password', 'Password') }}
