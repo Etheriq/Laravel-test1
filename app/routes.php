@@ -38,6 +38,20 @@ Route::post('login', array(
     'uses' => 'proj1\Controllers\UserController@login',
 ));
 
+Route::get('register', array(
+    'as' => 'register',
+    'uses' => 'proj1\Controllers\UserController@register',
+));
+Route::post('register', array(
+    'as' => 'register',
+    'uses' => 'proj1\Controllers\UserController@register',
+));
+
+Route::get('user/activation', array(
+    'as' => 'activation',
+    'uses' => 'proj1\Controllers\UserController@activation',
+));
+
 
 
 
@@ -51,14 +65,18 @@ Route::group(array('before' => 'auth'), function () {
 
     Route::get('logout', array(
         'as' => 'logout',
-        function()
-        {
+        function() {
             Sentry::logout();
             return Redirect::route('homepage');
         }
     ));
 
-//    Route::get('user/profile', function () {
-////         К этому маршруту также привязан фильтр auth.
-//    });
+    Route::get('email/send', array(
+        'as' => 'email',
+        'uses' => 'proj1\Controllers\MailController@send'
+    ));
+    Route::post('email/send', array(
+        'as' => 'email',
+        'uses' => 'proj1\Controllers\MailController@send'
+    ));
 });

@@ -14,5 +14,9 @@ Login form
         {{ Form::submit('enter') }}
     {{ Form::close() }}
 
+<br/>
+<br/>
+<a href="{{{ URL::route('register') }}}">register new user</a>
+
 @endsection
 

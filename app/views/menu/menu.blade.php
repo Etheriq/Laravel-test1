@@ -11,6 +11,10 @@
 </li>
 
 <li style="float: left; margin: 0 15px; text-decoration: none; list-style: none;">
+    <a href="{{{ URL::route('email') }}}">Send mail</a>
+</li>
+
+<li style="float: left; margin: 0 15px; text-decoration: none; list-style: none;">
     <a href="{{{ URL::route('logout') }}}">LogOut</a>
 </li>
 @else
