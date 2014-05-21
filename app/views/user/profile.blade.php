@@ -8,5 +8,7 @@ User profile
 
     Secure zone !!!
 
+    <br/><br/> {{ Sentry::getUser()->username }}
+
 @endsection
 

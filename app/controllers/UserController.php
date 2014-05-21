@@ -79,8 +79,9 @@ class UserController extends BaseController {
         if ($this->request->isMethod('post')) {
 
             if (Input::get('password') != Input::get('password_confirmation')) {
+                Input::flash();
                 Session::flash('error', 'password is not confirmed');
-                return Redirect::route('register');
+                return Redirect::route('register')->withInput();
             }
 
             $validator = Validator::make(
@@ -120,7 +121,6 @@ class UserController extends BaseController {
                 $data = array(
                     'from'  => 'Yuriy',
                     'to'    => $user->email,
-//                    'activationCode'    => $url,
                     'activationCode'    => $url.'?user='.$user->id.'&code='.$activationCode
                 );
 
@@ -128,8 +128,6 @@ class UserController extends BaseController {
                     $message->from('zz@zz.ry', 'Laravel');
                     $message->to('escawork@mail.ru', 'Джон Смит')->subject('Привет! Activation');
                 });
-
-
             }
             catch (LoginRequired $e)
             {

@@ -22,7 +22,7 @@ Route::get('articles', array(
     'as' => 'articles',
     function()
     {
-        $articles = Article::all();
+        $articles = proj1\Models\Article::all();
         return View::make('article.articles', array(
             'articles' => $articles,
         ));
@@ -79,4 +79,14 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'email',
         'uses' => 'proj1\Controllers\MailController@send'
     ));
+
+    Route::get('article/create', array(
+        'as' => 'acticleCreate',
+        'uses' => 'proj1\Controllers\ArticleController@create'
+    ));
+    Route::post('article/create', array(
+        'as' => 'acticleCreate',
+        'uses' => 'proj1\Controllers\ArticleController@create'
+    ));
+
 });

@@ -17,7 +17,8 @@
 			"app/tests/TestCase.php"
 		],
         "psr-4": {
-            "proj1\\Controllers\\": "app/controllers"
+            "proj1\\Controllers\\": "app/controllers",
+            "proj1\\Models\\": "app/models"
         }
 	},
 	"scripts": {
