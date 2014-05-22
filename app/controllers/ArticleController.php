@@ -55,8 +55,6 @@ class ArticleController extends BaseController {
             $article->user()->associate($user);
             $article->save();
 
-//            $p = Article::find($article->id);
-
             if (Input::has('tags')) {
                 $tags = explode(' ', trim(Input::get('tags')));
                 foreach($tags as $tag) {
@@ -64,7 +62,6 @@ class ArticleController extends BaseController {
                     $tagObj->tag = trim($tag);
                     $tagObj->save();
                     $article->tags()->attach($tagObj->id);
-//                    $p->tags()->attach($tagObj->id);
                 }
             }
 
@@ -76,26 +73,33 @@ class ArticleController extends BaseController {
 
     public function detail($id) {
 
-        $article = Article::find($id);
+        if(is_null(Article::find($id))) {
+
+            return Redirect::route('articles');
+        } else {
+            $article = Article::find($id);
+        }
 
         return View::make('article.detail', array(
             'article' => $article,
         ));
     }
 
-    private function getCurrentTagId($tag) {
-        $ds = DB::table('tags')->select('id')->where('tag', '=', $tag)->get();
+    private function checkTagExisting($tag) {
+        $tagObj = DB::table('tags')->where('tag','=', $tag)->first();
 
-        if (count($ds) == 0){
-            return null;
-        } else {
-            return $ds[0]->id;
-        }
+        return is_null($tagObj) ? null : $tagObj->id;
     }
 
     public function edit($id) {
 
-        $article = Article::find($id);
+        if(is_null(Article::find($id))) {
+
+            return Redirect::route('articles');
+        } else {
+            $article = Article::find($id);
+        }
+
         if (Sentry::check()) {
 
             $adminGroup = Sentry::findGroupByName('Admin');
@@ -108,35 +112,25 @@ class ArticleController extends BaseController {
                     $article->title = Input::get('title');
                     $article->description = Input::get('description');
                     $article->save();
-
-                    $tags = explode(' ', trim(Input::get('tags')));
-                    $finedTagsId = array();
-                    foreach(array_unique($tags) as $tag) {
-                        is_null($this->getCurrentTagId($tag)) ? : $finedTagsId[] = $this->getCurrentTagId($tag);
+                    foreach($article->tags as $tag)
+                    {
+                        $article->tags()->detach($tag->id);
                     }
 
-                    $tagsCurrent = $article->tags->toArray();
+                    $str = str_replace(array(',', ';', ':', '.'), ' ', trim(Input::get('tags')));
+                    $str = preg_replace('/\s+/',' ',$str);
+                    $tags = explode(' ', $str);
 
-                    dd('Input: ', array_unique($tags), 'Fined: ', array_unique($finedTagsId), 'Current: ', array_fetch($tagsCurrent, 'id'));
-
-
-
-//                    $tagsObj = $article->tags;
-//                    foreach($tagsObj as $tag)
-//                    {
-//                        $article->tags()->detach($tag->id);
-//                        Tag::find($tag->id)->delete();
-//                    }
-//
-//                    if (Input::has('tags')) {
-//                        $tags = explode(' ', trim(Input::get('tags')));
-//                        foreach($tags as $tag) {
-//                            $tagObj = new Tag();
-//                            $tagObj->tag = trim($tag);
-//                            $tagObj->save();
-//                            $article->tags()->attach($tagObj->id);
-//                        }
-//                    }
+                    foreach(array_unique($tags) as $tag) {
+                        if(is_null($this->checkTagExisting($tag))) {
+                            $newTag = new Tag();
+                            $newTag->tag = $tag;
+                            $newTag->save();
+                            $article->tags()->attach($newTag->id);
+                        } else {
+                            $article->tags()->attach($this->checkTagExisting($tag));
+                        }
+                    }
 
                     return Redirect::route('articleDetail', array($id));
                 }
