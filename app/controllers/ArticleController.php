@@ -55,13 +55,30 @@ class ArticleController extends BaseController {
             $article->user()->associate($user);
             $article->save();
 
-            if (Input::has('tags')) {
-                $tags = explode(' ', trim(Input::get('tags')));
-                foreach($tags as $tag) {
-                    $tagObj = new Tag();
-                    $tagObj->tag = trim($tag);
-                    $tagObj->save();
-                    $article->tags()->attach($tagObj->id);
+            if(Input::has('tags')) {
+                foreach($article->tags as $tag)
+                {
+                    $article->tags()->detach($tag->id);
+                }
+
+                $str = str_replace(array(',', ';', ':', '.'), ' ', trim(Input::get('tags')));
+                $str = preg_replace('/\s+/',' ',$str);
+                $tags = explode(' ', $str);
+
+                foreach(array_unique($tags) as $tag) {
+                    if(is_null($this->checkTagExisting($tag))) {
+                        $newTag = new Tag();
+                        $newTag->tag = $tag;
+                        $newTag->save();
+                        $article->tags()->attach($newTag->id);
+                    } else {
+                        $article->tags()->attach($this->checkTagExisting($tag));
+                    }
+                }
+            } else {
+                foreach($article->tags as $tag)
+                {
+                    $article->tags()->detach($tag->id);
                 }
             }
 
@@ -112,23 +129,31 @@ class ArticleController extends BaseController {
                     $article->title = Input::get('title');
                     $article->description = Input::get('description');
                     $article->save();
-                    foreach($article->tags as $tag)
-                    {
-                        $article->tags()->detach($tag->id);
-                    }
 
-                    $str = str_replace(array(',', ';', ':', '.'), ' ', trim(Input::get('tags')));
-                    $str = preg_replace('/\s+/',' ',$str);
-                    $tags = explode(' ', $str);
+                    if(Input::has('tags')) {
+                        foreach($article->tags as $tag)
+                        {
+                            $article->tags()->detach($tag->id);
+                        }
 
-                    foreach(array_unique($tags) as $tag) {
-                        if(is_null($this->checkTagExisting($tag))) {
-                            $newTag = new Tag();
-                            $newTag->tag = $tag;
-                            $newTag->save();
-                            $article->tags()->attach($newTag->id);
-                        } else {
-                            $article->tags()->attach($this->checkTagExisting($tag));
+                        $str = str_replace(array(',', ';', ':', '.'), ' ', trim(Input::get('tags')));
+                        $str = preg_replace('/\s+/',' ',$str);
+                        $tags = explode(' ', $str);
+
+                        foreach(array_unique($tags) as $tag) {
+                            if(is_null($this->checkTagExisting($tag))) {
+                                $newTag = new Tag();
+                                $newTag->tag = $tag;
+                                $newTag->save();
+                                $article->tags()->attach($newTag->id);
+                            } else {
+                                $article->tags()->attach($this->checkTagExisting($tag));
+                            }
+                        }
+                    } else {
+                        foreach($article->tags as $tag)
+                        {
+                            $article->tags()->detach($tag->id);
                         }
                     }
 
