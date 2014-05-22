@@ -1,15 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xeon
- * Date: 18.05.14
- * Time: 21:00
- */
+namespace proj1\Models;
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Tag extends Eloquent {
 
+    public $timestamps = false;
+
     public function articles()
     {
-        return $this->belongsToMany('Article');
+        return $this->belongsToMany(Article::class);
     }
 } 

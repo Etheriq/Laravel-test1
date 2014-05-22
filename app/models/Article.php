@@ -2,7 +2,6 @@
 namespace proj1\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use proj1\Models\User;
 
 class Article extends Eloquent {
     protected $softDelete = true;
@@ -14,11 +13,11 @@ class Article extends Eloquent {
 
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany(Comment::class);
     }
 
     public function tags()
     {
-        return $this->belongsToMany('Tag');
+        return $this->belongsToMany(Tag::class);
     }
 } 

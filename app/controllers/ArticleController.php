@@ -20,6 +20,8 @@ use Cartalyst\Sentry\Users\UserExistsException as UserExist;
 use Cartalyst\Sentry\Users\UserAlreadyActivatedException as UserAlreadyActivated;
 use Illuminate\Support\Facades\Mail;
 use proj1\Models\Article;
+use proj1\Models\Tag;
+
 
 class ArticleController extends BaseController {
 
@@ -51,13 +53,25 @@ class ArticleController extends BaseController {
             $article->user()->associate($user);
             $article->save();
 
+            $p = Article::find($article->id);
+
+            if (Input::has('tags')) {
+                $tags = explode(',', trim(Input::get('tags')));
+                foreach($tags as $tag) {
+                    $tagObj = new Tag();
+                    $tagObj->tag = trim($tag);
+                    $tagObj->save();
+                    $p->tags()->attach($tagObj->id);
+                }
+            }
+
+
+
+
+
             return Redirect::route('articles');
-
-
-
         }
 
         return View::make('article.create');
-
     }
 }

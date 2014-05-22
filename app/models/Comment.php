@@ -1,20 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xeon
- * Date: 18.05.14
- * Time: 20:58
- */
+namespace proj1\Models;
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Comment extends Eloquent {
 
     public function author()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class);
     }
 
     public function article()
     {
-        return $this->belongsTo('Article');
+        return $this->belongsTo(Article::class);
     }
 } 

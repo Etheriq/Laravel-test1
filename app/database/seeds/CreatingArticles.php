@@ -5,6 +5,7 @@
  * Date: 18.05.14
  * Time: 21:10
  */
+use proj1\Models\Article;
 
 class CreatingArticles extends Seeder {
 
@@ -12,7 +13,7 @@ class CreatingArticles extends Seeder {
     {
         DB::table('articles')->delete();
 
-        $author = Sentry::findUserByLogin('user2@loc.com');
+        $author = Sentry::findUserByLogin('user2');
 
         $article = new Article;
         $article->title = 'article # 1';
@@ -21,7 +22,7 @@ class CreatingArticles extends Seeder {
         $article->user()->associate($author);
         $article->save();
 
-        $author = Sentry::findUserByLogin('user1@loc.com');
+        $author = Sentry::findUserByLogin('user1');
 
         $article = new Article;
         $article->title = 'article # 2';
