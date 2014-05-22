@@ -1,11 +1,11 @@
 @extends('layout')
 
 @section('title')
-articles
+    articles
 @endsection
 
 @section('content')
-    <h3>Articles</h3>
+    <h3>Article list</h3>
 
         <table border="1" width="80%">
             <tr>
@@ -17,7 +17,7 @@ articles
         @foreach($articles as $article)
             <tr>
                 <td>
-                    {{ $article->title }}
+                    {{ link_to_route('articleDetail', $article->title, array($article->id)) }}
                 </td>
                 <td>
                     {{ $article->user->username }} ({{ $article->user->email }})

@@ -18,7 +18,7 @@ Route::get('/', array(
             return View::make('homepage.homepage');
         }
     ));
-Route::get('articles', array(
+Route::get('article', array(
     'as' => 'articles',
     function()
     {
@@ -51,6 +51,14 @@ Route::get('user/activation', array(
     'as' => 'activation',
     'uses' => 'proj1\Controllers\UserController@activation',
 ));
+
+Route::get('article/{id}/view', array(
+    'as' => 'articleDetail',
+    'uses' => 'proj1\Controllers\ArticleController@detail',
+));
+
+
+
 
 
 
@@ -88,5 +96,15 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'acticleCreate',
         'uses' => 'proj1\Controllers\ArticleController@create'
     ));
+    Route::get('article/{id}/edit', array(
+        'as' => 'articleEdit',
+        'uses' => 'proj1\Controllers\ArticleController@edit'
+    ));
+    Route::post('article/{id}/edit', array(
+        'as' => 'articleEdit',
+        'uses' => 'proj1\Controllers\ArticleController@edit'
+    ));
+
+
 
 });

@@ -2,6 +2,7 @@
 namespace proj1\Controllers;
 
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -21,6 +22,7 @@ use Cartalyst\Sentry\Users\UserAlreadyActivatedException as UserAlreadyActivated
 use Illuminate\Support\Facades\Mail;
 use proj1\Models\Article;
 use proj1\Models\Tag;
+use proj1\Models\User;
 
 
 class ArticleController extends BaseController {
@@ -53,25 +55,102 @@ class ArticleController extends BaseController {
             $article->user()->associate($user);
             $article->save();
 
-            $p = Article::find($article->id);
+//            $p = Article::find($article->id);
 
             if (Input::has('tags')) {
-                $tags = explode(',', trim(Input::get('tags')));
+                $tags = explode(' ', trim(Input::get('tags')));
                 foreach($tags as $tag) {
                     $tagObj = new Tag();
                     $tagObj->tag = trim($tag);
                     $tagObj->save();
-                    $p->tags()->attach($tagObj->id);
+                    $article->tags()->attach($tagObj->id);
+//                    $p->tags()->attach($tagObj->id);
                 }
             }
-
-
-
-
 
             return Redirect::route('articles');
         }
 
         return View::make('article.create');
     }
+
+    public function detail($id) {
+
+        $article = Article::find($id);
+
+        return View::make('article.detail', array(
+            'article' => $article,
+        ));
+    }
+
+    private function getCurrentTagId($tag) {
+        $ds = DB::table('tags')->select('id')->where('tag', '=', $tag)->get();
+
+        if (count($ds) == 0){
+            return null;
+        } else {
+            return $ds[0]->id;
+        }
+    }
+
+    public function edit($id) {
+
+        $article = Article::find($id);
+        if (Sentry::check()) {
+
+            $adminGroup = Sentry::findGroupByName('Admin');
+            $user = Sentry::getUser();
+
+            if(($article->user->id == $user->id) or ($user->inGroup($adminGroup))) {
+
+                if ($this->request->isMethod('post'))
+                {
+                    $article->title = Input::get('title');
+                    $article->description = Input::get('description');
+                    $article->save();
+
+                    $tags = explode(' ', trim(Input::get('tags')));
+                    $finedTagsId = array();
+                    foreach(array_unique($tags) as $tag) {
+                        is_null($this->getCurrentTagId($tag)) ? : $finedTagsId[] = $this->getCurrentTagId($tag);
+                    }
+
+                    $tagsCurrent = $article->tags->toArray();
+
+                    dd('Input: ', array_unique($tags), 'Fined: ', array_unique($finedTagsId), 'Current: ', array_fetch($tagsCurrent, 'id'));
+
+
+
+//                    $tagsObj = $article->tags;
+//                    foreach($tagsObj as $tag)
+//                    {
+//                        $article->tags()->detach($tag->id);
+//                        Tag::find($tag->id)->delete();
+//                    }
+//
+//                    if (Input::has('tags')) {
+//                        $tags = explode(' ', trim(Input::get('tags')));
+//                        foreach($tags as $tag) {
+//                            $tagObj = new Tag();
+//                            $tagObj->tag = trim($tag);
+//                            $tagObj->save();
+//                            $article->tags()->attach($tagObj->id);
+//                        }
+//                    }
+
+                    return Redirect::route('articleDetail', array($id));
+                }
+
+                return View::make('article.edit', array('article' => $article));
+            } else {
+                Session::flash('info', 'Access deny');
+
+                return Redirect::route('articleDetail', array($id));
+            }
+        } else {
+
+            return Redirect::guest('login');
+        }
+    }
+
 }
