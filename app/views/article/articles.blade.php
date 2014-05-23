@@ -13,6 +13,7 @@
                 <td>Author</td>
                 <td>created at</td>
                 <td>tags</td>
+                <td>Comments</td>
             </tr>
         @foreach($articles as $article)
             <tr>
@@ -27,8 +28,11 @@
                 </td>
                 <td>
                     @foreach($article->tags as $tag)
-                        <span style="background-color: #dda0dd;">{{ $tag->tag }}</span>
+                        {{ link_to_route('articleShowByTag', $tag->tag, array($tag->tag)) }}
                     @endforeach
+                </td>
+                <td>
+                    {{ count($article->comments) }}
                 </td>
             </tr>
         @endforeach

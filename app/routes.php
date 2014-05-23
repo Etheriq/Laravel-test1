@@ -57,6 +57,10 @@ Route::get('article/{id}/view', array(
     'uses' => 'proj1\Controllers\ArticleController@detail',
 ));
 
+Route::get('tag/{tag}', array(
+    'as' => 'articleShowByTag',
+    'uses' => 'proj1\Controllers\ArticleController@showByTag',
+));
 
 
 
@@ -103,6 +107,10 @@ Route::group(array('before' => 'auth'), function () {
     Route::post('article/{id}/edit', array(
         'as' => 'articleEdit',
         'uses' => 'proj1\Controllers\ArticleController@edit'
+    ));
+    Route::post('article/{id}/comment/create', array(
+        'as' => 'commentCreate',
+        'uses' => 'proj1\Controllers\CommentController@create'
     ));
 
 

@@ -12,5 +12,11 @@
 
     <h3>Home page</h3>
 
+    <?php
+        $artS = \proj1\Models\Article::all();
+    ?>
+
+    {{ (count($artS)) }}
+
 @endsection
 

@@ -1,29 +1,16 @@
 <?php
 namespace proj1\Controllers;
 
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use Cartalyst\Sentry\Facades\Laravel\Sentry;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Cartalyst\Sentry\Users\LoginRequiredException as LoginRequired;
-use Cartalyst\Sentry\Users\PasswordRequiredException as PasswordRequired;
-use Cartalyst\Sentry\Users\WrongPasswordException as WrongPass;
-use Cartalyst\Sentry\Users\UserNotFoundException as UserNotFound;
-use Cartalyst\Sentry\Users\UserNotActivatedException as UserNotActivated;
-use Cartalyst\Sentry\Throttling\UserSuspendedException as UserSuspended;
-use Cartalyst\Sentry\Throttling\UserBannedException as UserBanned;
-use Cartalyst\Sentry\Users\UserExistsException as UserExist;
-use Cartalyst\Sentry\Users\UserAlreadyActivatedException as UserAlreadyActivated;
-use Illuminate\Support\Facades\Mail;
 use proj1\Models\Article;
 use proj1\Models\Tag;
 use proj1\Models\User;
-
 
 class ArticleController extends BaseController {
 
@@ -172,4 +159,18 @@ class ArticleController extends BaseController {
         }
     }
 
+    public function showByTag($tag) {
+
+        $tagObj = Tag::where('tag', $tag)->first();
+
+        if (is_null($tagObj)) {
+
+            return Redirect::route('articles');
+        }  else {
+
+            return View::make('article.articlesByTag', array(
+                'tag' => $tagObj,
+            ));
+        }
+    }
 }

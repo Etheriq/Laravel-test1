@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Comment extends Eloquent {
 
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
