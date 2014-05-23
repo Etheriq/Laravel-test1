@@ -14,10 +14,12 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
+            "app/facades",
 			"app/tests/TestCase.php"
 		],
         "psr-4": {
             "proj1\\Controllers\\": "app/controllers",
+            "proj1\\Facades\\": "app/facades",
             "proj1\\Models\\": "app/models"
         }
 	},

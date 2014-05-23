@@ -23,23 +23,23 @@ App::after(function($request, $response)
 });
 
 
-App::error(function($exception, $code)
-{
-    switch ($code)
-    {
-        case 403:
-            return Response::view('errors.403', array(), 403);
-
-        case 404:
-            return Response::view('errors.404', array(), 404);
-
-        case 500:
-            return Response::view('errors.500', array(), 500);
-
-        default:
-            return Response::view('errors.default', array(), $code);
-    }
-});
+//App::error(function($exception, $code)
+//{
+//    switch ($code)
+//    {
+//        case 403:
+//            return Response::view('errors.403', array(), 403);
+//
+//        case 404:
+//            return Response::view('errors.404', array(), 404);
+//
+//        case 500:
+//            return Response::view('errors.500', array(), 500);
+//
+//        default:
+//            return Response::view('errors.default', array(), $code);
+//    }
+//});
 
 /*
 |--------------------------------------------------------------------------
@@ -60,8 +60,7 @@ Route::filter('auth', function()
 
 Route::filter('api_auth', function()
 {
-//       \proj1\facade\ApiAuthentification::check();
-    ApiAuth::zzz();
+    ApiAuth::check();
 //   if (!ApiAuth::auth()) throw new exception('bad credentials', 111);
 });
 
