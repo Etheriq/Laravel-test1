@@ -58,9 +58,9 @@ Route::filter('auth', function()
 //	if (Auth::guest()) return Redirect::guest('login');
 });
 
-Route::filter('api_auth', function()
+Route::filter('api_auth', function($route, $request)
 {
-    ApiAuth::check();
+    ApiAuth::check($route, $request);
 //   if (!ApiAuth::auth()) throw new exception('bad credentials', 111);
 });
 

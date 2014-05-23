@@ -5,6 +5,10 @@ class ApiController extends BaseController {
 
     public function ttt() {
 
-        return 'das';
+
+
+
+
+        return 'from ttt!';
     }
 }
