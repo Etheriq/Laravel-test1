@@ -7,6 +7,8 @@
 @section('content')
     <h3>Article list</h3>
 
+        {{-- ApiAuth::check() --}}
+
         <table border="1" width="80%">
             <tr>
                 <td>Title</td>

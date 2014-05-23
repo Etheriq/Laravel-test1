@@ -113,6 +113,14 @@ Route::group(array('before' => 'auth'), function () {
         'uses' => 'proj1\Controllers\CommentController@create'
     ));
 
+});
+
+Route::group(array('prefix' => 'api/v1', 'before' => 'api_auth'), function() {
+    Route::get('test1', array(
+        'as' => 'apitest1',
+        'uses' => 'proj1\Controllers\ApiController@ttt'
+    ));
+
 
 
 });

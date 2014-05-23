@@ -58,6 +58,13 @@ Route::filter('auth', function()
 //	if (Auth::guest()) return Redirect::guest('login');
 });
 
+Route::filter('api_auth', function()
+{
+//       \proj1\facade\ApiAuthentification::check();
+    ApiAuth::zzz();
+//   if (!ApiAuth::auth()) throw new exception('bad credentials', 111);
+});
+
 
 Route::filter('auth.basic', function()
 {
