@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use proj1\Models\Article;
 use proj1\Models\Tag;
 use proj1\Models\User;
+use Illuminate\Support\Facades\App;
 
 class ArticleController extends BaseController {
 
@@ -165,11 +166,13 @@ class ArticleController extends BaseController {
 
         if (is_null($tagObj)) {
 
-            return Redirect::route('articles');
+            App::abort(404);
+//            return Redirect::route('articles');
         }  else {
+            $art = $tagObj->articles()->paginate(1);
 
             return View::make('article.articlesByTag', array(
-                'tag' => $tagObj,
+                'tag' => $art,
             ));
         }
     }

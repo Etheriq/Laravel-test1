@@ -35,20 +35,30 @@ article detail
     </div>
     <div>
         <b>Tags:</b>
-        @foreach($article->tags as $tag)
-            {{ link_to_route('articleShowByTag', $tag->tag, array($tag->tag)) }}
-        @endforeach
+
+        @if($article->tags->count())
+            @foreach($article->tags as $tag)
+                {{ link_to_route('articleShowByTag', $tag->tag, array($tag->tag)) }}
+            @endforeach
+        @else
+            Tags not found.
+        @endif
     </div>
 
     <div>
-        @foreach($article->comments as $comment)
-            <p>
-                <b>Author is: </b> {{ $comment->user->username }} ({{ $comment->user->email }}) <b>Created at:</b> {{ date('d.m.Y H:i', strtotime($comment->created_at)) }}
-            </p>
-            <p>
-                {{ $comment->comment }}
-            </p>
-        @endforeach
+        @if($article->comments->count())
+            @foreach($article->comments as $comment)
+                <p>
+                    <b>Author is: </b> {{ $comment->user->username }} ({{ $comment->user->email }}) <b>Created at:</b> {{ date('d.m.Y H:i', strtotime($comment->created_at)) }}
+                </p>
+                <p>
+                    {{ $comment->comment }}
+                </p>
+            @endforeach
+        @else
+            Comments not found.
+        @endif
+
     </div>
 
     <hr>
